@@ -5,60 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/19 16:18:30 by vileleu           #+#    #+#             */
-/*   Updated: 2020/06/20 18:10:17 by vileleu          ###   ########.fr       */
+/*   Created: 2020/07/03 13:45:54 by vileleu           #+#    #+#             */
+/*   Updated: 2020/07/04 15:37:22 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/send_ray.h"
 
-t_img	*create_img_list()
+void	free_image(t_libx *d)
 {
-	t_img	*img;
+	t_image	*tmp;
 
-	if (!(img = malloc(sizeof(t_img))))
-		return (NULL);
-	img->img = (void *)0;
-	img->data = NULL;
-	img->bits = 0;
-	img->size = 0;
-	img->end = 0;
-	img->next = NULL;
-	return (img);
+	while (d->list)
+	{
+		tmp = d->list;
+		d->list = d->list->next;
+		mlx_destroy_image(d->init, tmp->img);
+		free(tmp);
+	}
 }
 
-void	create_img(t_scene s, t_libx *d, t_pixel pix)
+void	ft_add_img(t_image **alst, t_image *new)
 {
-	t_cam	*cam;
+	new->next = *alst;
+	*alst = new;
+}
 
-	cam = s.cam;
+int		create_image(t_scene s, t_libx *d, t_pixel *pix)
+{
+	t_cam	*save;
+	t_image	*new;
+
+	save = s.cam;
+	d->list = NULL;
 	while (s.cam != NULL)
 	{
-		d->l_img = create_img_list();
-		d->l_img->img = mlx_new_image(d->init, s.res_x, s.res_y);
-		d->l_img->data = mlx_get_data_addr(d->l_img->img, &d->l_img->bits, &d->l_img->size, &d->l_img->end);
-		checkpixel(s, d, &pix);
-		if (d->prems == 0)
-		{
-			d->save_img = d->l_img;
-			d->prems = 1;
-		}
-		d->l_img = d->l_img->next;
+		if (!(new = (t_image *)malloc(sizeof(t_image))))
+			return (0);
+		new->next = NULL;
+		new->img = mlx_new_image(d->init, s.res_x, s.res_y);
+		new->data = mlx_get_data_addr(new->img, &new->bits, &new->size, &new->end);	
+		checkpixel(s, new, pix);
+		ft_add_img(&(d->list), new);	
 		s.cam = s.cam->next;
 	}
-	d->l_img = d->save_img;
-	s.cam = cam;
-}
-
-void	delete_img(t_libx *d)
-{
-	t_img	*temp;
-
-	while (d->l_img != NULL)
-	{	
-		temp = d->l_img;
-		mlx_destroy_image(d->init, d->l_img->img);
-		d->l_img = d->l_img->next;
-		free(temp);
-	}
+	d->save_img = d->list;
+	s.cam = save;
+	return (1);
 }

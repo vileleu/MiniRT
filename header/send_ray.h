@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:56:16 by vileleu           #+#    #+#             */
-/*   Updated: 2020/06/20 18:29:30 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/05 18:36:19 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 # define PI 3.141592
 # define ABS(Value) (Value < 0 ? -Value : Value)
 # define E 0.001
-# define SPHERE 1
-# define PLAN 2
-# define CARRE 3
-# define CYLINDRE 4
-# define TRIANGLE 5
 
 # include <math.h>
 # include "../header/parsing.h"
@@ -38,31 +33,40 @@ typedef struct	s_ray
 	t_vect	direction;
 }				t_ray;
 
+typedef struct	s_rot
+{
+	t_vect	x_rot;
+	t_vect	y_rot;
+	t_vect	z_rot;
+}				t_rot;
+
 typedef struct	s_close
 {
-	int		form;
 	double	solu;
 	double	dist;
-	t_vect	cam;
-	t_vect	coord;
 	t_color	col_form;
 	t_vect	inter;
 	t_vect	normale;
 	t_color	col_final;
 }				t_close;
 
-typedef struct	s_libx
+typedef struct	s_image
 {
-	int		prems;
-	void	*init;
-	void	*win;
-	void	*img;
-	char	*data;
+	char			*data;
+	void			*img;
 	int		bits;
 	int		size;
 	int		end;
+	struct	s_image	*next;
+}				t_image;
+
+typedef struct	s_libx
+{
+	void	*init;
+	void	*win;
+	t_image	*list;
 	t_scene	sah;
-	t_cam	*save_cam;
+	t_image	*save_img;
 }				t_libx;
 
 /*
@@ -77,6 +81,9 @@ double			norme2(t_vect a);
 int				samevect(t_vect a, t_vect b);
 void			initialize_vect(t_vect *a);
 void			initialize_color(t_color *a);
+void			add_color(t_color *a, t_color b);
+t_vect			create_point(double a, double b, double c);
+t_vect			croisement(t_vect a, t_vect b);
 
 /*
 **	Rayons	
@@ -93,17 +100,15 @@ void			final_light(t_lum *light, t_close *inter, double i);
 void			amb_light(t_scene s, t_close *inter);
 
 int				enlight(t_scene s, t_close *inter, t_lum *light);
-t_close			enlight_obj(t_scene s, t_close *inter, t_ray ray_light);
 
 /*
-**	Spheres
+**	Formes
 */
 
 void			inter_sp(t_scene s, t_close *inter, t_ray ray);
-void			iter_sp(t_scene s, t_close *inter, t_ray ray, t_vect verif);
-
 void			inter_pl(t_scene s, t_close *inter, t_ray ray);
-void			iter_pl(t_scene s, t_close *inter, t_ray ray, t_vect verif);
+void			inter_tr(t_scene s, t_close *inter, t_ray ray);
+void			inter_sq(t_scene s, t_close *inter, t_ray ray);
 
 /*
 **	MLX
@@ -112,7 +117,15 @@ void			iter_pl(t_scene s, t_close *inter, t_ray ray, t_vect verif);
 int				mlx_cam(t_scene s);
 int				deal_key(int key, void *param);
 
-void			checkpixel(t_scene s, t_libx *d, t_pixel *pix);
+void			checkpixel(t_scene s, t_image *list, t_pixel *pix);
+int				create_image(t_scene s, t_libx *d, t_pixel *pix);
+void			free_image(t_libx *d);
+
+/*
+** Camera
+*/
+
+void			rot_apply(t_vect *ray, t_vect ori);
 
 /*
 **	Autres
@@ -120,7 +133,5 @@ void			checkpixel(t_scene s, t_libx *d, t_pixel *pix);
 
 double			return_smallest(double x1, double x2);
 void			initialize_inter(t_close *inter);
-
-int				shadowsp(t_ray ray, t_close *inter, t_sp *sp, t_lum *light);
 
 #endif

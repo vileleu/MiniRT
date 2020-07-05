@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:24:32 by vileleu           #+#    #+#             */
-/*   Updated: 2020/06/20 18:44:25 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/05 18:35:11 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@ int		inter_forms(t_scene s, t_pixel *pix, t_close *inter)
 	inter_pl(s, &second, ray);
 	if (return_smallest(inter->dist, second.dist) == second.dist)
 		*inter = second;
-	/*inter_sq();
-	inter_tr();
-	inter_cy();*/
+	initialize_inter(&second);
+	inter_tr(s, &second, ray);
+	if (return_smallest(inter->dist, second.dist) == second.dist)
+		*inter = second;
+	initialize_inter(&second);
+	inter_sq(s, &second, ray);
+	if (return_smallest(inter->dist, second.dist) == second.dist)
+	*inter = second;
+	/*inter_cy();*/
 	if (inter->dist)
 		return (1);
 	return (0);
@@ -52,7 +58,7 @@ void	inter_light(t_scene s, t_close *inter)
 	s.lum = light;
 }
 
-void	checkpixel(t_scene s, t_libx *d, t_pixel *pix)
+void	checkpixel(t_scene s, t_image *list, t_pixel *pix)
 {
 	t_close	inter;
 	
@@ -64,43 +70,46 @@ void	checkpixel(t_scene s, t_libx *d, t_pixel *pix)
 		while (pix->j < s.res_x)
 		{
 			initialize_inter(&inter);
-			inter.cam = s.cam->crdn;
 			if (inter_forms(s, pix, &inter))
 				inter_light(s, &inter);
-			d->data[(pix->col)++] = inter.col_final.x;
-			d->data[(pix->col)++] = inter.col_final.y;
-			d->data[(pix->col)++] = inter.col_final.z;
-			d->data[(pix->col)++] = 0;
+			list->data[(pix->col)++] = inter.col_final.x;
+			list->data[(pix->col)++] = inter.col_final.y;
+			list->data[(pix->col)++] = inter.col_final.z;
+			list->data[(pix->col)++] = 0;
 			(pix->j)++;
 		}
 		(pix->i)++;
 	}
-	mlx_put_image_to_window(d->init, d->win, d->img, 0, 0);
 }
 
 int		deal_key(int key, void *param)
 {
 	t_libx	*d;
-	t_pixel	pix;
 
 	d = (t_libx*)param;
 	if (key == 53)
 	{
-		mlx_destroy_image(d->init, d->img);
+		free_image(d);
 		mlx_destroy_window(d->init, d->win);
 		exit(0);
 	}
 	else if (key == 49)
 	{
-		mlx_destroy_image(d->init, d->img);
-		if (d->sah.cam->next == NULL)
-			d->sah.cam = d->save_cam;
+		if (d->list->next == NULL)
+			d->list = d->save_img;
 		else
-			d->sah.cam = d->sah.cam->next;
-		d->img = mlx_new_image(d->init, d->sah.res_x, d->sah.res_y);
-		d->data = mlx_get_data_addr(d->img, &d->bits, &d->size, &d->end);
-		checkpixel(d->sah, d, &pix);
+			d->list = d->list->next;
+		mlx_put_image_to_window(d->init, d->win, d->list->img, 0, 0);
 	}
+	return (0);
+}
+
+int		deal_mouse(int button, void *param)
+{
+	t_libx	*d;
+
+	d = (t_libx*)param;
+	printf("button : %d\n", button);
 	return (0);
 }
 
@@ -109,17 +118,16 @@ int		mlx_cam(t_scene s)
 	t_libx	d;
 	t_pixel	pix;
 
-	d.prems = 0;
 	d.sah = s;
-	d.save_cam = s.cam;
 	pix.i = 0;
 	pix.j = 0;
 	pix.col = 0;
 	d.init = mlx_init();
 	d.win = mlx_new_window(d.init, s.res_x, s.res_y, "Bienvenue!");
-	d.img = mlx_new_image(d.init, s.res_x, s.res_y);
-	d.data = mlx_get_data_addr(d.img, &d.bits, &d.size, &d.end);
-	checkpixel(s, &d, &pix);
+	if (!(create_image(s, &d, &pix)))
+		exit(0);
+	mlx_put_image_to_window(d.init, d.win, d.list->img, 0, 0);
+	mlx_mouse_hook(d.win, deal_mouse, &d);
 	mlx_key_hook(d.win, deal_key, &d);
 	mlx_loop(d.init);
 	return (1);

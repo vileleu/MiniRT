@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:35:45 by vileleu           #+#    #+#             */
-/*   Updated: 2020/06/18 14:36:43 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/01 18:28:47 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int		samevect(t_vect a, t_vect b)
 
 double	return_smallest(double x1, double x2)
 {
-	if (x1 == x2)
-		return (x1);
+	if (x1 <= 0 && x2 <= 0)
+		return (0);
 	else if (x1 > 0 && x2 <= 0)
 		return (x1);
 	else if (x2 > 0 && x1 <= 0)
@@ -31,6 +31,8 @@ double	return_smallest(double x1, double x2)
 		return (x1);
 	else if (x2 < x1)
 		return (x2);
+	else if (x1 == x2)
+		return (x1);
 	else
 		return (0);
 }
@@ -51,11 +53,8 @@ void	initialize_color(t_color *a)
 
 void	initialize_inter(t_close *inter)
 {
-	inter->form = 0;
 	inter->solu = 0;
 	inter->dist = 0;
-	initialize_vect(&inter->cam);
-	initialize_vect(&inter->coord);
 	initialize_vect(&inter->normale);
 	initialize_vect(&inter->inter);
 	initialize_color(&inter->col_form);
