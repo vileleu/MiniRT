@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 15:44:00 by sileleu           #+#    #+#             */
-/*   Updated: 2020/02/06 14:16:16 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 17:16:10 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ int		bef_pars(t_scene *s, char **av)
 	return (1);
 }
 
+void	initialize_vect(t_vect *a)
+{
+	a->x = 0;
+	a->y = 0;
+	a->z = 0;
+}
+
 void	init_scene(t_scene *s)
 {
 	s->verifr = 0;
@@ -83,4 +90,7 @@ void	init_scene(t_scene *s)
 	s->sq = NULL;
 	s->cy = NULL;
 	s->tr = NULL;
+	initialize_vect(&s->rot.x_rot);
+	initialize_vect(&s->rot.y_rot);
+	initialize_vect(&s->rot.z_rot);
 }

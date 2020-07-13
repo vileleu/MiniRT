@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:19:37 by vileleu           #+#    #+#             */
-/*   Updated: 2020/03/09 17:14:22 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 17:15:14 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ typedef struct	s_tr
 	struct s_tr	*next;
 }				t_tr;
 
+typedef struct	s_rot
+{
+	t_vect	x_rot;
+	t_vect	y_rot;
+	t_vect	z_rot;
+}				t_rot;
+
 typedef struct	s_scene
 {
 	int		res_x;
@@ -109,6 +116,7 @@ typedef struct	s_scene
 	t_sq	*sq;
 	t_cy	*cy;
 	t_tr	*tr;
+	t_rot	rot;
 }				t_scene;
 
 double			ft_atof(char *str, int *ptr);
@@ -118,6 +126,7 @@ int				ft_atoi3(char *str, int *ptr, t_color *color);
 
 int				bef_pars(t_scene *s, char **av);
 void			init_scene(t_scene *s);
+void			initialize_vect(t_vect *a);
 
 int				whitespace(char *str, int *ptr);
 int				get_next_line(int fd, char **line);

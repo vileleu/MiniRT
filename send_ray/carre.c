@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 19:14:51 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/05 18:53:49 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 18:08:31 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	inter_sqbis(t_scene s, t_close *inter, t_ray ray)
 	data = multi(ray.direction, t);
 	p = ope('+', ray.origin, data);
 	if (s.sq->orientation.x != 0 || s.sq->orientation.y == 0 || s.sq->orientation.z != 0)
-		rot_apply(&p, s.sq->orientation);
+		matrix_app(rot_apply(s.sq->orientation), &p);
 	a = s.sq->crdn.x - s.sq->height / 2;
 	data.x = s.sq->crdn.x + s.sq->height / 2;
 	data.y = s.sq->crdn.z - s.sq->height / 2;

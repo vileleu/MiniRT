@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:56:16 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/05 18:36:19 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 17:59:54 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ typedef struct	s_ray
 	t_vect	origin;
 	t_vect	direction;
 }				t_ray;
-
-typedef struct	s_rot
-{
-	t_vect	x_rot;
-	t_vect	y_rot;
-	t_vect	z_rot;
-}				t_rot;
 
 typedef struct	s_close
 {
@@ -78,10 +71,9 @@ double			prodscal(t_vect a, t_vect b);
 t_vect			multi(t_vect a, double b);
 t_vect			normalize(t_vect v);
 double			norme2(t_vect a);
-int				samevect(t_vect a, t_vect b);
-void			initialize_vect(t_vect *a);
 void			initialize_color(t_color *a);
 void			add_color(t_color *a, t_color b);
+void			add_point(t_vect *a, t_vect b);
 t_vect			create_point(double a, double b, double c);
 t_vect			croisement(t_vect a, t_vect b);
 
@@ -116,6 +108,7 @@ void			inter_sq(t_scene s, t_close *inter, t_ray ray);
 
 int				mlx_cam(t_scene s);
 int				deal_key(int key, void *param);
+int				mouse(void *param);
 
 void			checkpixel(t_scene s, t_image *list, t_pixel *pix);
 int				create_image(t_scene s, t_libx *d, t_pixel *pix);
@@ -125,7 +118,12 @@ void			free_image(t_libx *d);
 ** Camera
 */
 
-void			rot_apply(t_vect *ray, t_vect ori);
+t_rot			rot_apply(t_vect ori);
+void			matrix_app(t_rot r, t_vect *ray);
+t_rot			rot_verif(t_vect rot, int angle);
+int				whichone(t_vect ori);
+t_rot			double_x(t_vect ori);
+t_rot			matrixprod(t_rot r, t_rot re);
 
 /*
 **	Autres

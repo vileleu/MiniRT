@@ -6,18 +6,11 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:35:45 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/01 18:28:47 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 17:14:21 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/send_ray.h"
-
-int		samevect(t_vect a, t_vect b)
-{
-	if (a.x == b.x && a.y == b.y && a.z == b.z)
-		return (1);
-	return (0);
-}
 
 double	return_smallest(double x1, double x2)
 {
@@ -37,13 +30,6 @@ double	return_smallest(double x1, double x2)
 		return (0);
 }
 
-void	initialize_vect(t_vect *a)
-{
-	a->x = 0;
-	a->y = 0;
-	a->z = 0;
-}
-
 void	initialize_color(t_color *a)
 {
 	a->x = 0;
@@ -59,4 +45,14 @@ void	initialize_inter(t_close *inter)
 	initialize_vect(&inter->inter);
 	initialize_color(&inter->col_form);
 	initialize_color(&inter->col_final);
+}
+
+t_vect	create_point(double a, double b, double c)
+{
+	t_vect	v;
+
+	v.x = a;
+	v.y = b;
+	v.z = c;
+	return (v);
 }

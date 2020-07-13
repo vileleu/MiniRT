@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:24:32 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/05 18:35:11 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 17:59:06 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	checkpixel(t_scene s, t_image *list, t_pixel *pix)
 	
 	pix->col = 0;
 	pix->i = 0;
+	s.rot = rot_apply(s.cam->orientation);
 	while (pix->i < s.res_y)
 	{
 		pix->j = 0;
@@ -82,37 +83,6 @@ void	checkpixel(t_scene s, t_image *list, t_pixel *pix)
 	}
 }
 
-int		deal_key(int key, void *param)
-{
-	t_libx	*d;
-
-	d = (t_libx*)param;
-	if (key == 53)
-	{
-		free_image(d);
-		mlx_destroy_window(d->init, d->win);
-		exit(0);
-	}
-	else if (key == 49)
-	{
-		if (d->list->next == NULL)
-			d->list = d->save_img;
-		else
-			d->list = d->list->next;
-		mlx_put_image_to_window(d->init, d->win, d->list->img, 0, 0);
-	}
-	return (0);
-}
-
-int		deal_mouse(int button, void *param)
-{
-	t_libx	*d;
-
-	d = (t_libx*)param;
-	printf("button : %d\n", button);
-	return (0);
-}
-
 int		mlx_cam(t_scene s)
 {
 	t_libx	d;
@@ -127,7 +97,7 @@ int		mlx_cam(t_scene s)
 	if (!(create_image(s, &d, &pix)))
 		exit(0);
 	mlx_put_image_to_window(d.init, d.win, d.list->img, 0, 0);
-	mlx_mouse_hook(d.win, deal_mouse, &d);
+	mlx_hook(d.win, 17, 1L << 0, mouse, &d);
 	mlx_key_hook(d.win, deal_key, &d);
 	mlx_loop(d.init);
 	return (1);

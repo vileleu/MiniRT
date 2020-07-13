@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 12:55:01 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/05 18:37:27 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/13 18:03:10 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_ray	newray(t_scene s, t_pixel pix)
 	ray.direction.x = pix.j - s.res_x / 2;
 	ray.direction.y = pix.i - s.res_y / 2;
 	ray.direction.z = -s.res_x / (2 * tan(s.cam->fov * PI / 180 / 2));
-	if (s.cam->orientation.x != 0 || s.cam->orientation.y != 0 || s.cam->orientation.z != 0)
-		rot_apply(&ray.direction, s.cam->orientation);
 	ray.direction = normalize(ray.direction);
+	if (!(s.cam->orientation.x == 0 && s.cam->orientation.y == 0 && s.cam->orientation.z == -1))
+		matrix_app(s.rot, &ray.direction);
 	return (ray);
 }
 
@@ -40,16 +40,6 @@ t_ray	newray_enlight(t_close *inter, t_lum *light)
 	return (ray);
 }
 
-t_vect	create_point(double a, double b, double c)
-{
-	t_vect	v;
-
-	v.x = a;
-	v.y = b;
-	v.z = c;
-	return (v);
-}
-
 t_vect	croisement(t_vect a, t_vect b)
 {
 	t_vect	c;
@@ -60,9 +50,16 @@ t_vect	croisement(t_vect a, t_vect b)
 	return (c);
 }
 
-void	add_color(t_color *a, t_color b)
+void	add_point(t_vect *a, t_vect b)
 {
 	a->x = b.x;
 	a->y = b.y;
 	a->z = b.z;
+}
+
+void	add_color(t_color *a, t_color b)
+{
+	a->x = b.z;
+	a->y = b.y;
+	a->z = b.x;
 }
