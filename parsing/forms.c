@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 13:38:40 by vileleu           #+#    #+#             */
-/*   Updated: 2020/03/09 17:13:09 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:22:36 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		square(char *str, t_scene *s, int i)
 		return (0);
 	if (!(whitespace(str, &i)))
 		return (0);
+	square2(o);
 	return (1);
 }
 

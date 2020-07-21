@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 15:50:07 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 16:58:25 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 17:52:14 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ t_close		enlight_obj(t_scene s, t_ray ray_light)
 		preuve = prouve;
 	initialize_inter(&prouve);
 	inter_sq(s, &prouve, ray_light);
+	if (return_smallest(preuve.dist, prouve.dist) == prouve.dist)
+		preuve = prouve;
+	initialize_inter(&prouve);
+	inter_cy(s, &prouve, ray_light);
 	if (return_smallest(preuve.dist, prouve.dist) == prouve.dist)
 		preuve = prouve;
 	return (preuve);

@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 16:45:03 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/01 18:29:34 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:49:09 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	solutiontr(t_close *inter, t_tr *tr, t_ray ray, double smallest)
 		add_color(&inter->col_form, tr->color);
 		inter->solu = smallest;
 		inter->inter = ope('+', ray.origin, multi(ray.direction, inter->solu));
-		inter->normale = normalize(croisement(ope('-', tr->crdn2, tr->crdn1), ope('-', tr->crdn3, tr->crdn1)));
-		if (norme2(ope('-', ope('+', inter->inter, inter->normale), ray.origin)) > norme2(ope('-', ope('-', inter->inter, inter->normale), ray.origin)))
+		inter->normale = normalize(croisement(ope('-', tr->crdn2, tr->crdn1), \
+		ope('-', tr->crdn3, tr->crdn1)));
+		if (norme2(ope('-', ope('+', inter->inter, inter->normale), \
+		ray.origin)) > norme2(ope('-', ope('-', inter->inter, inter->normale), \
+		ray.origin)))
 			inter->normale = multi(inter->normale, -1);
 		inter->dist = sqrt(norme2(ope('-', inter->inter, ray.origin)));
 	}
@@ -42,7 +45,7 @@ void	inter_trbis(t_scene s, t_close *inter, t_ray ray)
 	if (verif[0] > -E && verif[0] < E)
 		return ;
 	verif[1] = 1.0 / verif[0];
-	vectr[1] = ope('-' ,ray.origin, s.tr->crdn1);
+	vectr[1] = ope('-', ray.origin, s.tr->crdn1);
 	verif[2] = verif[1] * prodscal(vectr[1], vectr[0]);
 	if (verif[2] < 0.0 || verif[2] > 1.0)
 		return ;

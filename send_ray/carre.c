@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 19:14:51 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 18:08:31 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:27:40 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	solutionsq(t_close *inter, t_sq *sq, t_ray ray, double t)
 	}
 }
 
-float		inter_plane(t_ray ray, t_sq *sq)
+float	inter_plane(t_ray ray, t_sq *sq)
 {
 	double	a;
 	double	b;
@@ -50,6 +50,7 @@ void	inter_sqbis(t_scene s, t_close *inter, t_ray ray)
 {
 	double	t;
 	double	a;
+	double	b;
 	t_vect	p;
 	t_vect	data;
 
@@ -57,13 +58,12 @@ void	inter_sqbis(t_scene s, t_close *inter, t_ray ray)
 		return ;
 	data = multi(ray.direction, t);
 	p = ope('+', ray.origin, data);
-	if (s.sq->orientation.x != 0 || s.sq->orientation.y == 0 || s.sq->orientation.z != 0)
-		matrix_app(rot_apply(s.sq->orientation), &p);
-	a = s.sq->crdn.x - s.sq->height / 2;
-	data.x = s.sq->crdn.x + s.sq->height / 2;
-	data.y = s.sq->crdn.z - s.sq->height / 2;
-	data.z = s.sq->crdn.z + s.sq->height / 2;
-	if ((p.x >= a && p.x <= data.x) && (p.z <= data.z && p.z >= data.y))
+	data = ope('-', p, s.sq->a);
+	a = prodscal(data, ope('-', s.sq->b, s.sq->a)) / prodscal(ope('-', \
+	s.sq->b, s.sq->a), ope('-', s.sq->b, s.sq->a));
+	b = prodscal(data, ope('-', s.sq->c, s.sq->a)) / prodscal(ope('-', \
+	s.sq->c, s.sq->a), ope('-', s.sq->c, s.sq->a));
+	if (a >= 0 && a <= 1 && b >= 0 && b <= 1)
 		solutionsq(inter, s.sq, ray, t);
 }
 

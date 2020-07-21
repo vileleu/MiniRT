@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:24:32 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 17:59:06 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 18:07:11 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int		inter_forms(t_scene s, t_pixel *pix, t_close *inter)
 	initialize_inter(&second);
 	inter_sq(s, &second, ray);
 	if (return_smallest(inter->dist, second.dist) == second.dist)
-	*inter = second;
-	/*inter_cy();*/
+		*inter = second;
+	initialize_inter(&second);
+	inter_cy(s, &second, ray);
+	if (return_smallest(inter->dist, second.dist) == second.dist)
+		*inter = second;
 	if (inter->dist)
 		return (1);
 	return (0);
@@ -40,7 +43,7 @@ int		inter_forms(t_scene s, t_pixel *pix, t_close *inter)
 void	inter_light(t_scene s, t_close *inter)
 {
 	t_lum	*light;
-	double	i;	
+	double	i;
 
 	light = s.lum;
 	amb_light(s, inter);
@@ -48,7 +51,8 @@ void	inter_light(t_scene s, t_close *inter)
 	{
 		if (enlight(s, inter, s.lum))
 		{
-			i = prodscal(normalize(ope('-', s.lum->crdn, inter->inter)), inter->normale) / norme2(ope('-', s.lum->crdn, inter->inter));
+			i = prodscal(normalize(ope('-', s.lum->crdn, inter->inter)), \
+			inter->normale) / norme2(ope('-', s.lum->crdn, inter->inter));
 			if (i < 0)
 				i = 0;
 			final_light(s.lum, inter, i);
@@ -58,10 +62,10 @@ void	inter_light(t_scene s, t_close *inter)
 	s.lum = light;
 }
 
-void	checkpixel(t_scene s, t_image *list, t_pixel *pix)
+void	checkpixel(t_scene s, char *data, t_pixel *pix)
 {
 	t_close	inter;
-	
+
 	pix->col = 0;
 	pix->i = 0;
 	s.rot = rot_apply(s.cam->orientation);
@@ -73,10 +77,10 @@ void	checkpixel(t_scene s, t_image *list, t_pixel *pix)
 			initialize_inter(&inter);
 			if (inter_forms(s, pix, &inter))
 				inter_light(s, &inter);
-			list->data[(pix->col)++] = inter.col_final.x;
-			list->data[(pix->col)++] = inter.col_final.y;
-			list->data[(pix->col)++] = inter.col_final.z;
-			list->data[(pix->col)++] = 0;
+			data[(pix->col)++] = inter.col_final.x;
+			data[(pix->col)++] = inter.col_final.y;
+			data[(pix->col)++] = inter.col_final.z;
+			data[(pix->col)++] = 0;
 			(pix->j)++;
 		}
 		(pix->i)++;

@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 13:41:14 by vileleu           #+#    #+#             */
-/*   Updated: 2020/03/09 17:13:44 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:23:12 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		camera(char *str, t_scene *s, int i)
 int		lumiere(char *str, t_scene *s, int i)
 {
 	t_lum	*o;
-	
+
 	if (!(o = (t_lum *)malloc(sizeof(t_lum))))
 		return (-1);
 	o->next = NULL;

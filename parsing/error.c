@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 15:25:35 by vileleu           #+#    #+#             */
-/*   Updated: 2020/02/06 14:20:54 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 18:40:19 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int		error(int verif, t_scene *s)
 		printf("Bad character in file .rt\n");
 	else if (verif == -1)
 		printf("Malloc problem\n");
+	else if (verif == 10)
+		verif = 8;
 	else
 		printf("There is only one ambient light and one resolution\n");
 	return (0);

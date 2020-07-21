@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 13:45:54 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/04 15:37:22 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:28:36 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ int		create_image(t_scene s, t_libx *d, t_pixel *pix)
 			return (0);
 		new->next = NULL;
 		new->img = mlx_new_image(d->init, s.res_x, s.res_y);
-		new->data = mlx_get_data_addr(new->img, &new->bits, &new->size, &new->end);	
-		checkpixel(s, new, pix);
-		ft_add_img(&(d->list), new);	
+		new->data = mlx_get_data_addr(new->img, &new->bits, \
+		&new->size, &new->end);
+		checkpixel(s, new->data, pix);
+		ft_add_img(&(d->list), new);
 		s.cam = s.cam->next;
 	}
 	d->save_img = d->list;

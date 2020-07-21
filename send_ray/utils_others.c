@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:35:45 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 17:14:21 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 18:09:39 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ void	initialize_color(t_color *a)
 	a->z = 0;
 }
 
-void	initialize_inter(t_close *inter)
-{
-	inter->solu = 0;
-	inter->dist = 0;
-	initialize_vect(&inter->normale);
-	initialize_vect(&inter->inter);
-	initialize_color(&inter->col_form);
-	initialize_color(&inter->col_final);
-}
-
 t_vect	create_point(double a, double b, double c)
 {
 	t_vect	v;
@@ -55,4 +45,24 @@ t_vect	create_point(double a, double b, double c)
 	v.y = b;
 	v.z = c;
 	return (v);
+}
+
+t_vect	divi(t_vect a, double b)
+{
+	t_vect	new;
+
+	new.x = a.x / b;
+	new.y = a.y / b;
+	new.z = a.z / b;
+	return (new);
+}
+
+void	initialize_inter(t_close *inter)
+{
+	inter->solu = 0;
+	inter->dist = 0;
+	initialize_vect(&inter->normale);
+	initialize_vect(&inter->inter);
+	initialize_color(&inter->col_form);
+	initialize_color(&inter->col_final);
 }

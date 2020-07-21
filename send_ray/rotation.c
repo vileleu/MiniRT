@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 18:02:55 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 18:13:05 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:42:26 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,12 @@ t_rot	rot_double(t_vect ori, int angle)
 			r = rot_verif(create_point(0, 1, 0), 90);
 		else
 			r = rot_verif(create_point(0, 1, 0), 270);
-		angle = acos(prodscal(ori, create_point(ori.x, 0, 0)) / (sqrt(norme2(ori)) * \
-		sqrt(norme2(create_point(ori.x, 0, 0))))) * (180 / PI);
-		if ((ori.x < 0 && ori.y > 0) || (ori.x > 0 && ori.y < 0))
-			angle = 360 - angle;
-		r = matrixprod(r, rot_verif(create_point(0, 0, 1), angle));
-	}
-	return (r);
-}
-
-t_rot	triple_bis(t_vect ori, int angle, t_rot r)
-{
-	if (ori.x < 0 && ori.z > 0)
-	{
-		if (ori.y > 0)
+		angle = acos(prodscal(ori, create_point(ori.x, 0, 0)) / \
+		(sqrt(norme2(ori)) * sqrt(norme2(create_point(ori.x, 0, 0))))) \
+		* (180 / PI);
+		if ((ori.x < 0 && ori.y < 0) || (ori.x > 0 && ori.y < 0))
 			angle = 360 - angle;
 		r = matrixprod(r, rot_verif(create_point(1, 0, 0), angle));
-		r = matrixprod(r, rot_verif(create_point(0, 0, 1), 360 - angle));
-	}
-	else
-	{
-		if (ori.y < 0)
-			angle = 360 - angle;
-		r = matrixprod(r, rot_verif(create_point(1, 0, 0), angle));
-		r = matrixprod(r, rot_verif(create_point(0, 0, 1), 360 - angle));
 	}
 	return (r);
 }
@@ -61,27 +43,22 @@ t_rot	rot_triple(t_vect ori)
 	t_rot	r;
 	int		angle;
 
-	angle = acos(prodscal(create_point(ori.x, 0, ori.z), create_point(0, 0, -1)) / \
-	(sqrt(norme2(create_point(ori.x, 0, ori.z))) * sqrt(norme2(create_point(0, 0, -1))))) * (180 / PI);
-	r = rot_double(create_point(ori.x, 0, ori.z), angle);
-	angle = (acos(prodscal(create_point(ori.x, 0, ori.z), ori) / \
-	(sqrt(norme2(create_point(ori.x, 0, ori.z))) * sqrt(norme2(ori)))) * (180 / PI));
-	if (ori.x < 0 && ori.z < 0)
+	r = rot_double(create_point(0, ori.y, ori.z), 0);
+	angle = (acos(prodscal(create_point(0, ori.y, ori.z), ori) / \
+	(sqrt(norme2(create_point(0, ori.y, ori.z))) * sqrt(norme2(ori)))) \
+	* (180 / PI));
+	if (ori.z < 0)
 	{
-		if (ori.y < 0)
+		if (ori.x > 0)
 			angle = 360 - angle;
-		r = matrixprod(r, rot_verif(create_point(1, 0, 0), angle));
-		r = matrixprod(r, rot_verif(create_point(0, 0, 1), 360 - angle));
+		r = matrixprod(r, rot_verif(create_point(0, 1, 0), angle));
 	}
-	else if (ori.x > 0 && ori.z > 0)
+	else if (ori.z > 0)
 	{
-		if (ori.y > 0)
+		if (ori.x < 0)
 			angle = 360 - angle;
-		r = matrixprod(r, rot_verif(create_point(1, 0, 0), angle));
-		r = matrixprod(r, rot_verif(create_point(0, 0, 1), 360 - angle));
+		r = matrixprod(r, rot_verif(create_point(0, 1, 0), angle));
 	}
-	else
-		r = triple_bis(ori, angle, r);
 	return (r);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:19:37 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 17:15:14 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/18 15:41:54 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
+# include <unistd.h>
 
 typedef struct	s_vect
 {
@@ -72,6 +73,10 @@ typedef struct	s_sq
 	t_vect		orientation;
 	double		height;
 	t_color		color;
+	t_vect		a;
+	t_vect		b;
+	t_vect		c;
+	t_vect		d;
 	struct s_sq	*next;
 }				t_sq;
 
@@ -123,10 +128,12 @@ double			ft_atof(char *str, int *ptr);
 double			ft_atof3p(char *str, int *ptr, t_vect *point);
 int				ft_atoi(char *str, int *ptr);
 int				ft_atoi3(char *str, int *ptr, t_color *color);
+t_vect			ope(char c, t_vect a, t_vect b);
 
 int				bef_pars(t_scene *s, char **av);
 void			init_scene(t_scene *s);
 void			initialize_vect(t_vect *a);
+t_vect			create_point(double a, double b, double c);
 
 int				whitespace(char *str, int *ptr);
 int				get_next_line(int fd, char **line);
@@ -141,6 +148,7 @@ int				plane(char *str, t_scene *s, int i);
 int				square(char *str, t_scene *s, int i);
 int				cylindre(char *str, t_scene *s, int i);
 int				triangle(char *str, t_scene *s, int i);
+void			square2(t_sq *o);
 int				cylindre2(char *str, int *ptr, t_cy *o);
 int				triangle2(char *str, int *ptr, t_tr *o);
 
@@ -152,6 +160,9 @@ void			ft_add_tr(t_tr **alst, t_tr *new);
 
 void			ft_add_cam(t_cam **alst, t_cam *new);
 void			ft_add_lum(t_lum **alst, t_lum *new);
+
+t_rot			rot_apply(t_vect ori);
+void			matrix_app(t_rot r, t_vect *ray);
 
 int				error(int verif, t_scene *s);
 

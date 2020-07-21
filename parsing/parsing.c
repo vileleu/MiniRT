@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 15:44:00 by sileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 17:16:10 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:23:32 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int		whitespace(char *str, int *ptr)
 {
 	while (str[*ptr] == '\t' || str[*ptr] == ' ')
 		(*ptr)++;
-	if ((str[*ptr] < 48 || str[*ptr] > 57) && str[*ptr] != '-' && str[*ptr] != '\0')
+	if ((str[*ptr] < 48 || str[*ptr] > 57) && str[*ptr] != '-' \
+	&& str[*ptr] != '\0')
 		return (0);
 	return (1);
 }

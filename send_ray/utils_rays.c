@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 12:55:01 by vileleu           #+#    #+#             */
-/*   Updated: 2020/07/13 18:03:10 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/07/21 16:49:27 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_ray	newray(t_scene s, t_pixel pix)
 	ray.direction.y = pix.i - s.res_y / 2;
 	ray.direction.z = -s.res_x / (2 * tan(s.cam->fov * PI / 180 / 2));
 	ray.direction = normalize(ray.direction);
-	if (!(s.cam->orientation.x == 0 && s.cam->orientation.y == 0 && s.cam->orientation.z == -1))
+	if (!(s.cam->orientation.x == 0 && s.cam->orientation.y == 0 \
+	&& s.cam->orientation.z == -1))
 		matrix_app(s.rot, &ray.direction);
 	return (ray);
 }
