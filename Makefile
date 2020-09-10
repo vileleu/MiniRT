@@ -13,10 +13,6 @@ NAME		= Minirt
 
 INCS		= -I srcs/header.h
 
-LIB_MACOS	= -L minilibx_opengl_20191021 -lmlx -framework OpenGL -framework AppKit
-
-LIB_LINUX	= -L minilibx-linux -lmlx -lm -lXext -lX11 -lpthread -lbsd
-
 lIBX		= 
 
 CC			= gcc -Wall -Wextra -Werror
@@ -26,16 +22,19 @@ RM			= rm -rf
 UNAME = $(shell uname)
 
 ifeq ($(UNAME),Darwin)
-	LIBX += $(LIB_MACOS)
+	${MAKE} -C minilibx_opengl_20191021
+	LIBX += -L minilibx_opengl_20191021 -lmlx -framework OpenGL -framework AppKit
 endif
 ifeq ($(UNAME),Linux)
-	LIBX += $(LIB_LINUX)
+	${MAKE} -C minilibx-linux
+	LIBX += -L minilibx-linux -lmlx -lm -lXext -lX11 -lpthread -lbsd
+
 endif
 
 .c.o:		${CC} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			${CC} ${OBJS} ${LIBX} ${INCS}
+			${CC} -o ${NAME} ${OBJS} ${INCS} ${LIBX}
 
 all:		${NAME}
 
