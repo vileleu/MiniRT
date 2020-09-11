@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:56:16 by vileleu           #+#    #+#             */
-/*   Updated: 2020/09/06 16:03:15 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/09/11 16:17:39 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include <math.h>
 # include "../header/parsing.h"
-# include "../minilibx_opengl_20191021/mlx.h"
+# include "../minilibx_mms_20200219/mlx.h"
 
 typedef struct	s_pixel
 {

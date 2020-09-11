@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:19:37 by vileleu           #+#    #+#             */
-/*   Updated: 2020/09/04 17:40:42 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/09/11 16:17:48 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,6 @@ t_rot			rot_apply(t_vect ori);
 void			matrix_app(t_rot r, t_vect *ray);
 
 int				error(int verif, t_scene *s);
+int				fatal(char *msg);
 
 #endif

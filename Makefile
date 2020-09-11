@@ -13,7 +13,9 @@ NAME		= Minirt
 
 INCS		= -I srcs/header.h
 
-lIBX		= 
+LIBX		=
+
+FLAGX		= 
 
 CC			= gcc -Wall -Wextra -Werror
 
@@ -22,24 +24,25 @@ RM			= rm -rf
 UNAME = $(shell uname)
 
 ifeq ($(UNAME),Darwin)
-	${MAKE} -C minilibx_opengl_20191021
-	LIBX += -L minilibx_opengl_20191021 -lmlx -framework OpenGL -framework AppKit
+	LIBX = minilibx_mms_20200219/
+	FLAGX = -L minilibx_mms_20200219 -lmlx -framework OpenGL -framework AppKit
 endif
 ifeq ($(UNAME),Linux)
-	${MAKE} -C minilibx-linux
-	LIBX += -L minilibx-linux -lmlx -lm -lXext -lX11 -lpthread -lbsd
-
+	LIBX = minilibx-linux/
+	FLAGX = -L minilibx-linux -lmlx -lm -lXext -lX11 -lpthread -lbsd
 endif
 
 .c.o:		${CC} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			${CC} -o ${NAME} ${OBJS} ${INCS} ${LIBX}
+			make -C ${LIBX} all
+			${CC} ${OBJS} ${INCS} -o ${NAME} ${FLAGX}
 
 all:		${NAME}
 
 clean:
 			${RM} ${OBJS}
+			make -C ${LIBX} clean
 
 fclean:		clean
 			${RM} ${NAME}

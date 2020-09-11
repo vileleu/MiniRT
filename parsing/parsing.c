@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 15:44:00 by sileleu           #+#    #+#             */
-/*   Updated: 2020/09/05 15:58:46 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/09/11 16:18:09 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int		bef_pars(t_scene *s, char **av)
 	int		fd;
 	int		verif;
 
-	fd = open(av[1], O_RDONLY);
+	if ((fd = open(av[1], O_RDONLY)) < 0)
+		return (fatal("File .rt doesn't exist\n"));
 	while (get_next_line(fd, &line))
 	{
 		if ((verif = parsing(line, s)) < 1)
