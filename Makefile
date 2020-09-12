@@ -29,7 +29,7 @@ endif
 ifeq ($(UNAME),Linux)
 	make -C ${LIBX} all
 	FLAGX = -L ${LIBX} -lmlx -lm -lXext -lX11 -lpthread -lbsd
-	rm += && make -C ${LIBX} clean
+	rm = make -C ${LIBX} clean && rm -rf
 endif
 
 .c.o:		${CC} -c $< -o ${<:.c=.o}
