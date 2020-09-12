@@ -6,7 +6,7 @@
 /*   By: vileleu <vileleu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 15:25:35 by vileleu           #+#    #+#             */
-/*   Updated: 2020/09/05 16:02:53 by vileleu          ###   ########.fr       */
+/*   Updated: 2020/09/12 15:36:33 by vileleu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		error(int verif, t_scene *s)
 		printf("Error during creation of bmp file\n");
 	else if (verif == 12)
 		printf("Need camera, resolution and ambient light to \
-		lauch the program\n");
+launch the program\n");
 	else
 		printf("There is only one ambient light and one resolution\n");
 	return (0);
