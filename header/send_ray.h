@@ -17,7 +17,7 @@
 
 # include <math.h>
 # include "../header/parsing.h"
-# include "../minilibx_mms_20200219/mlx.h"
+# include "../minilibx/mlx.h"
 
 typedef struct	s_pixel
 {
